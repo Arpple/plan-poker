@@ -8,22 +8,28 @@ describe('voting', () => {
 			Poker.getVoteResult,
 		)
 
-		it('should have no voted point', () => {
-			expect(result.all).toEqual({
-				[Poker.Score.One]: 0,
-				[Poker.Score.Two]: 0,
-				[Poker.Score.Three]: 0,
-				[Poker.Score.Five]: 0,
-				[Poker.Score.Eight]: 0,
+		it('should have all point count as 0', () => {
+			expect(result.count).toEqual({
+				1: 0,
+				2: 0,
+				3: 0,
+				5: 0,
+				8: 0,
 			})
 		})
 
-		it('should have top vote as 0', () => {
-			expect(result.top).toEqual([0])
+		it('should have all point as top (same count 0)', () => {
+			expect(result.top).toEqual({
+				1: 0,
+				2: 0,
+				3: 0,
+				5: 0,
+				8: 0,
+			})
 		})
 	})
 
-	describe('when vote score', () => {
+	describe('when vote point', () => {
 		const result = pipe(
 			Poker.create(),
 			Poker.vote('a', 3),
@@ -32,19 +38,24 @@ describe('voting', () => {
 			Poker.getVoteResult,
 		)
 
-		it('should add point to vote result', () => {
-			expect(result.all).toEqual({
-				[Poker.Score.One]: 0,
-				[Poker.Score.Two]: 0,
-				[Poker.Score.Three]: 2,
-				[Poker.Score.Five]: 1,
-				[Poker.Score.Eight]: 0,
+		it('should add point to vote count', () => {
+			expect(result.count).toEqual({
+				1: 0,
+				2: 0,
+				3: 2,
+				5: 1,
+				8: 0,
 			})
 		})
 
-		it('should have top vote as most voted score', () => {
-			expect(result.top).toEqual([3])
+		it('should have most voted point as top', () => {
+			expect(result.top).toEqual({
+				3: 2,
+			})
 		})
+	})
+
+	describe('when vote have multiple top point', () => {
 	})
 })
 

@@ -1,5 +1,5 @@
 export namespace Poker {
-	export enum Score {
+	export enum Point {
 		One = 1,
 		Two = 2,
 		Three = 3,
@@ -8,30 +8,57 @@ export namespace Poker {
 	}
 
 	export type VoteResult = {
-		all: Record<Score, number>,
-		top: number[],
+		count: Record<Point, number>,
+		top: Partial<Record<Point, number>>,
 	}
 
 
-	export type T = {
-	}
+	type User = string
+	export type T = Record<User, number>
 
 	export const create = (): T => {
+		return {}
+	}
+
+	export const vote = (user: string, point: Point) => (room: T): T => {
 		return {
-			users: [],
+			...room,
+			[user]: point,
 		}
 	}
 
 	export const getVoteResult = (room: T): VoteResult => {
-		return {
-			all: {
-				[Score.One]: 0,
-				[Score.Two]: 0,
-				[Score.Three]: 0,
-				[Score.Five]: 0,
-				[Score.Eight]: 0,
-			},
-			top: [0],
+		const getPointCount = (point: Point): number =>
+			Object.values(room)
+				.filter((p) => p === point)
+				.length
+
+		const count = {
+			1: getPointCount(1),
+			2: getPointCount(2),
+			3: getPointCount(3),
+			5: getPointCount(5),
+			8: getPointCount(8),
 		}
+
+		const maxCount = Object.values(count)
+			.reduce(
+				(max, count) => count > max
+					? count
+					: max,
+				0
+			)
+
+		const top = Object.entries(count)
+			.filter(([_, count]) => count === maxCount)
+			.reduce(
+				(record, [point, count]) => ({
+					...record,
+					[point]: count,
+				}),
+				{}
+			)
+
+		return { count, top }
 	}
 }
