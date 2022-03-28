@@ -1,5 +1,5 @@
 export namespace Poker {
-	export enum Point {
+	enum Point {
 		One = 1,
 		Two = 2,
 		Three = 3,
@@ -14,13 +14,19 @@ export namespace Poker {
 
 
 	type User = string
-	export type T = Record<User, number>
+	type T = Record<User, number>
 
 	export const create = (): T => {
 		return {}
 	}
 
+	export class InvalidPointError extends Error {}
+
 	export const vote = (user: string, point: Point) => (room: T): T => {
+		if (Point[point] === undefined) {
+			throw new InvalidPointError()
+		}
+
 		return {
 			...room,
 			[user]: point,
