@@ -91,16 +91,4 @@ describe('voting', () => {
 			})
 		})
 	})
-
-	describe('vote invalid point', () => {
-		const action = () => pipe(
-			Poker.create(),
-			Poker.vote('a', 1.11),
-		)
-
-		it('should error', () => {
-			expect(action).toThrow(Poker.InvalidPointError)
-		})
-	})
 })
-
