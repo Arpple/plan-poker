@@ -29,7 +29,6 @@ export class VotesController {
 	) {
 		try {
 			const user = AuthMiddleware.getUser(res)
-			console.log(user)
 			await this.votesService.createVote(user, createVoteDto.point)
 		} catch (error) {
 			if (error instanceof InvalidPointError) {
