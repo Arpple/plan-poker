@@ -1,15 +1,20 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { AuthMiddleware } from '../middleware/auth.middleware';
 import { VotesController } from './votes.controller';
-import { Vote } from './votes.entity';
-import { VoteRepository } from './votes.repository';
-import { VotesService } from './votes.service';
+import { Vote } from '../../database/entity/vote.entity';
+import { VoteRepo } from '../../database/repo/vote.repo';
+import { PokerService } from '../../service/poker/poker.service';
 
 @Module({
 	imports: [
-		TypeOrmModule.forFeature([Vote, VoteRepository]),
+		TypeOrmModule.forFeature([Vote, VoteRepo]),
 	],
 	controllers: [VotesController],
-	providers: [VotesService],
+	providers: [PokerService],
 })
-export class VotesModule {}
+export class VotesModule implements NestModule {
+	configure(consumer: MiddlewareConsumer) {
+		consumer.apply(AuthMiddleware).forRoutes('*')
+	}
+}

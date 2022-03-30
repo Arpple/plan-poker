@@ -1,29 +1,36 @@
-import { BadRequestException, Body, Controller, Get, Headers, Post } from '@nestjs/common'
-import { CreateVoteDto } from './createVote.dto'
-import { InvalidPointError, VotesService } from './votes.service'
+import { BadRequestException, Body, Controller, Get, Post, Res } from '@nestjs/common'
+import { Response } from 'express'
+import { AuthMiddleware } from '../middleware/auth.middleware'
+import { InvalidPointError, PokerService } from '../../service/poker/poker.service'
 import { VotesView } from './votes.view'
+import { IsNumber } from 'class-validator'
+
+class CreateVoteDto {
+	@IsNumber()
+	readonly point: number
+}
 
 @Controller('votes')
 export class VotesController {
 	constructor(
-		private votesService: VotesService,
+		private votesService: PokerService,
 	) {}
 
 	@Get()
 	public async getVotes() {
 		const result =  await this.votesService.getVoteResult()
-		return VotesView.resultView(result)
+		return { data: VotesView.resultView(result) }
 	}
 
 	@Post()
 	public async create(
-		@Headers('x-user') user: string,
+		@Res() res: Response,
 		@Body() createVoteDto: CreateVoteDto,
 	) {
 		try {
-			await this.votesService.createVote(user, createVoteDto)
-			const result = await this.votesService.getVoteResult()
-			return VotesView.resultView(result)
+			const user = AuthMiddleware.getUser(res)
+			console.log(user)
+			await this.votesService.createVote(user, createVoteDto.point)
 		} catch (error) {
 			if (error instanceof InvalidPointError) {
 				throw new BadRequestException(error.message)
@@ -31,5 +38,9 @@ export class VotesController {
 
 			throw error
 		}
+
+		const result = await this.votesService.getVoteResult()
+		return res.status(200).send({ data: VotesView.resultView(result) })
 	}
 }
+
