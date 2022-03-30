@@ -1,10 +1,10 @@
-import { Injectable } from "@nestjs/common";
-import { InjectRepository } from "@nestjs/typeorm";
-import { pipe } from "fp-ts/lib/function";
-import { Poker } from "src/lib/poker";
-import { VoteDto } from "./interfaces/vote.dto";
-import { Vote } from "./votes.entity";
-import { VoteRepository } from "./votes.repository";
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { pipe } from 'fp-ts/lib/function';
+import { Poker } from 'src/lib/poker';
+import { CreateVoteDto } from './createVote.dto';
+import { Vote } from './votes.entity';
+import { VoteRepository } from './votes.repository';
 
 export class InvalidPointError extends Error {
 	constructor(point: number) {
@@ -26,10 +26,10 @@ export class VotesService {
 		)
 	}
 
-	public async createVote(user: string, voteDto: VoteDto): Promise<void> {
+	public async createVote(user: string, createVoteDto: CreateVoteDto): Promise<void> {
 		await this.voteRepo.save({
 			user,
-			point: this.validatePoint(voteDto.point)
+			point: this.validatePoint(createVoteDto.point)
 		})
 	}
 
