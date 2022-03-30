@@ -1,6 +1,6 @@
 export namespace Poker {
 	export const voteablePoints = [1, 2, 3, 5, 8] as const
-	type Point = typeof voteablePoints[number]
+	export type Point = typeof voteablePoints[number]
 
 	export type VoteResult = {
 		count: Record<Point, number>,
@@ -9,7 +9,7 @@ export namespace Poker {
 
 
 	type User = string
-	type T = Record<User, number>
+	export type T = Record<User, number>
 
 	export const create = (): T => {
 		return {}
