@@ -1,4 +1,4 @@
-import { Poker } from "src/lib/poker";
+import { Poker } from 'src/lib/poker'
 
 export namespace VotesView {
 	export type Result = Poker.VoteResult & {

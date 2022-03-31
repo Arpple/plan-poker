@@ -1,9 +1,9 @@
-import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { pipe } from 'fp-ts/lib/function';
-import { Poker } from 'src/lib/poker';
-import { Vote } from '../../database/entity/vote.entity';
-import { VoteRepo } from '../../database/repo/vote.repo';
+import { Injectable } from '@nestjs/common'
+import { InjectRepository } from '@nestjs/typeorm'
+import { pipe } from 'fp-ts/lib/function'
+import { Poker } from 'src/lib/poker'
+import { Vote } from '../../database/entity/vote.entity'
+import { VoteRepo } from '../../database/repo/vote.repo'
 
 export class InvalidPointError extends Error {
 	constructor(point: number) {

@@ -1,6 +1,6 @@
 import { BadRequestException, Body, Controller, Get, Post, Res } from '@nestjs/common'
 import { Response } from 'express'
-import { AuthMiddleware } from '../middleware/auth.middleware'
+import { AuthMiddleware } from '../auth/auth.middleware'
 import { InvalidPointError, PokerService } from '../../service/poker/poker.service'
 import { VotesView } from './votes.view'
 import { IsNumber } from 'class-validator'

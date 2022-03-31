@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common'
 
 export class InvalidUserError extends Error {
 	constructor(user: string) {
