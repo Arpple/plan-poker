@@ -1,7 +1,7 @@
 import { BadRequestException, Body, Controller, Get, Post, Res } from '@nestjs/common'
 import { Response } from 'express'
 import { AuthMiddleware } from '../middleware/auth.middleware'
-import { InvalidPointError, PokerService } from '../../service/poker/poker.service'
+import { PokerService } from '../../service/poker/poker.service'
 import { VotesView } from './votes.view'
 import { IsNumber } from 'class-validator'
 
@@ -9,11 +9,10 @@ class CreateVoteDto {
 	@IsNumber()
 	readonly point: number
 }
-
 @Controller('votes')
 export class VotesController {
 	constructor(
-		private votesService: PokerService,
+		private votesService: PokerService.T,
 	) {}
 
 	@Get()
@@ -30,8 +29,9 @@ export class VotesController {
 		try {
 			const user = AuthMiddleware.getUser(res)
 			await this.votesService.createVote(user, createVoteDto.point)
+
 		} catch (error) {
-			if (error instanceof InvalidPointError) {
+			if (error instanceof PokerService.InvalidPointError) {
 				throw new BadRequestException(error.message)
 			}
 

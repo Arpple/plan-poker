@@ -1,11 +1,11 @@
 import { Injectable, NestMiddleware, UnauthorizedException } from '@nestjs/common'
 import { Request, Response, NextFunction } from 'express'
-import { AuthService, InvalidUserError } from 'src/service/auth/auth.service'
+import { AuthService } from 'src/service/auth/auth.service'
 
 @Injectable()
 export class AuthMiddleware implements NestMiddleware {
 	constructor(
-		private authService: AuthService,
+		private authService: AuthService.T,
 	) {}
 
 	public use(req: Request, res: Response, next: NextFunction) {
@@ -14,7 +14,7 @@ export class AuthMiddleware implements NestMiddleware {
 		try {
 			this.authService.validateUser(user)
 		} catch (error) {
-			if (error instanceof InvalidUserError) {
+			if (error instanceof AuthService.InvalidUserError) {
 				throw new UnauthorizedException()
 			}
 

@@ -12,7 +12,7 @@ import { AuthService } from 'src/service/auth/auth.service'
 		TypeOrmModule.forFeature([Vote, VoteRepo]),
 	],
 	controllers: [VotesController],
-	providers: [PokerService, AuthService],
+	providers: [PokerService.T, AuthService.T],
 })
 export class VotesModule implements NestModule {
 	configure(consumer: MiddlewareConsumer) {
