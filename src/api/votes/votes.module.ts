@@ -1,6 +1,6 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common'
 import { TypeOrmModule } from '@nestjs/typeorm'
-import { AuthMiddleware } from '../auth/auth.middleware'
+import { AuthMiddleware } from '../middleware/auth.middleware'
 import { VotesController } from './votes.controller'
 import { Vote } from '../../database/entity/vote.entity'
 import { VoteRepo } from '../../database/repo/vote.repo'
