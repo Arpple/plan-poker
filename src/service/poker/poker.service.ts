@@ -17,6 +17,9 @@ export class PokerService {
 		@InjectRepository(VoteRepo) private voteRepo: VoteRepo,
 	) {}
 
+	/**
+	 * @throws {InvalidPointError}
+	 */
 	public async getVoteResult(): Promise<Poker.VoteResult> {
 		const votes = await this.voteRepo.find()
 		return pipe(
@@ -25,6 +28,9 @@ export class PokerService {
 		)
 	}
 
+	/**
+	 * @throws {InvalidPointError}
+	 */
 	public async createVote(user: string, point: number): Promise<void> {
 		await this.voteRepo.save({
 			user,
