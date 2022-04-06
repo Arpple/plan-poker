@@ -2,6 +2,15 @@
 
 practice project with Nest.js implementing Planning Poker 
 
+### structure
+
+`lib` = business logic, pure function
+
+`service` = application interface, interact with database but no UI (HTTP)
+
+`api` = ui layer, in this case HTTP Api server
+
+`database` = database and ORM
 
 ## Installation
 
